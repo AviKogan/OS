@@ -1,0 +1,85 @@
+avikog
+Avi Kogan (205417710)
+EX: 2
+
+FILES:
+scheduler.cpp -- file that implements the Round-Robin scheduling policy.
+scheduler.h -- header file for the scheduler.cpp file.
+signalMaker.cpp -- file that implements object that mask given signal, assumes the signal valid. the
+                    mask will be removed when the object dctor will be called.
+signalMasker.h -- header file for the signalMasker.cpp file.
+thread.cpp -- file that object implements the object that holds the fields required to create and
+              manage thread.
+thread.h -- header file for the thread.cpp file.
+uthreads.cpp -- Implementation for the given uthreads.h library.
+README - this file
+Makefile - makefile that compiles the project files and creates 'libuthreads.a' file.
+
+REMARKS:
+1. I created the SignalMasker class to handle the masking of SIGVALARM during the library functions
+   execution, the object created as the function start on the stack, and destroyed when returning
+   from the function, by destroying the object the masking UNBLOCK-ed via the object's dctor.
+
+2. Using of meaningful global constants (#define) for better code understanding.
+
+
+ANSWERS:
+
+Q1:
+For performing operations that are primarily computational, for example for MergeSort
+We would rather work with 'User level threads' because there is no need to perform 'Privilege
+instructions'.
+
+Q2:
+Advantages and disadvantages of creating new process for each tab:
+
+Advantages:
+    1. independence - if one process blocked it is not affect the others.
+
+    2. Parallel - the processes can ru in parallel if multiprocessor available.
+
+
+Disadvantages:
+    1. Memory waste - no data sharing between the tabs, fixed size for each process.
+
+    2. High overhead - all operations require a kernel trap.
+
+
+
+Q3:
+1. Mouse:
+Hardware interrupts - created by the mouse to move it to the application and press on it.
+                         each interrupt (mouse move/click) goes to the processor which handle
+                         them according with the relevant handler (got from the interrupts
+                         vector).
+
+2. Keyboard:
+Hardware interrupts - created by the keyboard to write each letter in the 'kill ..' to the
+                         shell.
+
+3. Shell:
+Sends the SIGTERM signal to the OS with the given process id.
+
+3. OS:
+SIGTERM signal - after pressing the enter key, a SIGTERM signal will be passed to the OS
+                    which will use the SIGTERM handker to terminate the application.
+
+
+
+Q4:
+virtual time - its the time that the process were actually running on the CPU.
+    USE example: In the exercise we wanted to measure for each thread we created fixed time (and
+                 equal) on the CPU, What can be achieved by using virtual time with the 'setitimer'
+                 system function.
+
+real time - the actual time (Time in human vision), without consideration of CPU.
+    USE example: measure the actual time passed between 2 points, for example from the beginning of
+                 the run of a thread to its end, but not the running on the CPU time, but real time.
+
+Q5:
+
+The sigsetjmp():  function save their calling environment, the current location, CPU state and
+                  signal mask (optinal).
+
+The siglongjmp(): function goes to the saved location in the given environment, restoring the state
+                  and the signal mask.
